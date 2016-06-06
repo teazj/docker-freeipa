@@ -1,0 +1,34 @@
+version: "2"
+
+services:
+
+  ipa: # [branch] master
+    build:
+      context: ./freeipa-server
+      dockerfile: Dockerfile
+    container_name: ipa
+    ports:
+      - "8389:389" # LDAP
+      - "8636:636" # LDAPS
+      - "8088:88" # kerberos
+      - "8464:464" # kerberos
+      - "8053:53" # bind
+    hostname: server1.foo.bar.net
+    domainname: foo.bar.net
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - ./freeipa-server/ipa-data:/data:Z
+    environment:
+      - PASSWORD=supersecretpassword
+
+  ipa-client: # [branch] centos 7 client
+    build: 
+      context: ./freeipa-client
+      dockerfile: Dockerfile
+    container_name: ipa_client
+    hostname: client1.foo.bar.net
+    domainname: foo.bar.net
+    depends_on:
+      - ipa
+    environment:
+      - PASSWORD=supersecretpassword
