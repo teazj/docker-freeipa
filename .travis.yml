@@ -9,11 +9,8 @@ env:
 
 before_install:
   # update docker
-  - sudo apt-get update
-  - sudo apt-get remove -yy postgresql-common postgresql-client-common openjdk-6-jre-lib openjdk-7-jre mysql-common google-chrome-stable chromium-browser redis-server # remove unneeded pcgs
-  - sudo apt-get autoremove -yy
-  - sudo apt-get -yy upgrade -o Dpkg::Options::=--force-confnew
-  - sudo apt-get -yy dist-upgrade -o Dpkg::Options::=--force-confnew
+  - sudo apt-get update  
+  - sudo apt-get -yy install docker-engine -o Dpkg::Options::=--force-confnew
   - docker -v
   # update docker compose
   - sudo rm /usr/local/bin/docker-compose
